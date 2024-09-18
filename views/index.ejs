@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>Finance Tracker</title>
+</head>
+<body>
+    <h1>Finance Tracker</h1>
+    <form action="/add-transaction" method="POST">
+        <label for="description">Description:</label>
+        <input type="text" id="description" name="description" required>
+
+        <label for="type">Type:</label>
+        <select id="type" name="type">
+            <option value="Expense">Expense</option>
+            <option value="Income">Income</option>
+        </select>
+
+        <label for="date">Date:</label>
+        <input type="date" id="date" name="date" required>
+
+        <label for="amount">Amount:</label>
+        <input type="number" id="amount" name="amount" required>
+
+        <button type="submit">Add Transaction</button>
+    </form>
+
+    <form action="/search-transactions" method="POST">
+        <label for="month">Month:</label>
+        <input type="number" id="month" name="month" min="1" max="12" required>
+
+        <label for="year">Year:</label>
+        <input type="number" id="year" name="year" required>
+
+        <button type="submit">Search Transactions</button>
+    </form>
+
+    <a href="/main">View All Transactions</a>
+    <br>
+    <a href="/download-pdf">Download PDF Report</a>
+    <br>
+    <a href="/download-excel">Download Excel Report</a>
+</body>
+</html>

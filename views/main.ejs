@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>All Transactions</title>
+</head>
+<body>
+    <h1>All Transactions</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Type</th>
+                <th>Date</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% transactions.forEach(transaction => { %>
+                <tr>
+                    <td><%= transaction.description %></td>
+                    <td><%= transaction.type %></td>
+                    <td><%= new Date(transaction.date).toLocaleDateString() %></td>
+                    <td>$<%= transaction.amount.toFixed(2) %></td>
+                </tr>
+            <% }); %>
+        </tbody>
+    </table>
+
+    <br>
+    <a href="/dashboard">Back to Dashboard</a>
+    <br>
+    <a href="/logout">Logout</a>
+</body>
+</html>
