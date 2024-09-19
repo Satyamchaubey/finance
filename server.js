@@ -15,8 +15,8 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
-// MongoDB Atlas Connection
-const uri = "mongodb+srv://styam123ru:F6cOjxgCVMBkDdQ1@cluster0.ptlav.mongodb.net/myDatabase?retryWrites=true&w=majority&appName=Cluster0";
+// MongoDB Local Connection
+const uri = "mongodb://localhost/finance-tracker"; // Replace 'myDatabase' with your actual database name
 mongoose.connect(uri, {
     useNewUrlParser: true,
     useUnifiedTopology: true
@@ -25,6 +25,7 @@ mongoose.connect(uri, {
 }).catch(err => {
     console.error('Error connecting to MongoDB:', err);
 });
+
 
 // Middleware
 app.use(bodyParser.urlencoded({ extended: true }));
