@@ -2,7 +2,6 @@ const express = require('express');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
 const passport = require('passport');
-const multer = require('multer');
 const bodyParser = require('body-parser');
 const path = require('path');
 const bcrypt = require('bcryptjs');
@@ -17,14 +16,15 @@ const app = express();
 
 // MongoDB Local Connection
 const uri = "mongodb://localhost/finance-tracker"; // Replace 'myDatabase' with your actual database name
-mongoose.connect(uri, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => {
-    console.log("Connected to MongoDB!");
-}).catch(err => {
-    console.error('Error connecting to MongoDB:', err);
-});
+
+mongoose.connect(uri)
+    .then(() => {
+        console.log("Connected to MongoDB!");
+    })
+    .catch(err => {
+        console.error('Error connecting to MongoDB:', err);
+    });
+
 
 
 // Middleware
@@ -32,11 +32,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
 
-// Set up Multer for file uploads
-const upload = multer({ 
-    dest: 'uploads/', // Directory to store uploaded files
-    limits: { fileSize: 1000000 } // Limit file size (1MB)
-});
 
 // Express session setup
 app.use(session({
@@ -301,7 +296,7 @@ app.get('/profile', isAuthenticated, async (req, res) => {
 });
 
 // Route to handle profile update
-app.post('/update-profile', upload.single('profilePicture'), async (req, res) => {
+app.post('/update-profile', async (req, res) => {
     const { username, email } = req.body;
     const userId = req.session.userId; // Assumes userId is stored in session
 
@@ -312,11 +307,6 @@ app.post('/update-profile', upload.single('profilePicture'), async (req, res) =>
         if (username) user.username = username;
         if (email) user.email = email;
 
-        // Handle profile picture upload
-        if (req.file) {
-            user.profilePicture = `/uploads/${req.file.filename}`; // Save the path to the uploaded file
-        }
-
         await user.save();
 
         res.redirect('/profile'); // Redirect to profile page or another page
@@ -325,6 +315,7 @@ app.post('/update-profile', upload.single('profilePicture'), async (req, res) =>
         res.status(500).send('Server error');
     }
 });
+
 
 // Route to handle password change
 app.post('/change-password', async (req, res) => {
