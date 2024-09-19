@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const ObjectId = mongoose.Types.ObjectId;
@@ -15,7 +16,7 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const app = express();
 
 // MongoDB Local Connection
-const uri = "mongodb://localhost/finance-tracker"; // Replace 'myDatabase' with your actual database name
+const uri = process.env.MONGODB_URI; // Replace 'myDatabase' with your actual database name
 
 mongoose.connect(uri)
     .then(() => {
@@ -49,8 +50,8 @@ app.use(session({
 
 // Passport configuration
 passport.use(new GoogleStrategy({
-    clientID: '1042265845512-4hv8t6ot16rcvjvekmgialmrecetmnc0.apps.googleusercontent.com',
-    clientSecret: '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',
+    clientID: process.env.GOOGLE_CLIENT_ID,
+    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
     callbackURL: '/auth/google/callback',
     scope: ['profile', 'email']
 }, async (accessToken, refreshToken, profile, done) => {
