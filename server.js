@@ -31,6 +31,9 @@ mongoose.connect(uri)
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
+// Set the views directory and log it
+app.set('views', path.join(__dirname, 'views'));
+console.log('Views directory:', path.join(__dirname, 'views')); // Add this line
 
 
 // Express session setup
