@@ -15,17 +15,17 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const app = express();
 
-// MongoDB Local Connection
-const uri = process.env.MONGODB_URI; // Replace 'myDatabase' with your actual database name
 
-mongoose.connect(uri)
-    .then(() => {
-        console.log("Connected to MongoDB!");
-    })
-    .catch(err => {
-        console.error('Error connecting to MongoDB:', err);
-    });
+// MongoDB Connection
+const uri = process.env.MONGODB_URI;
 
+mongoose.connect(uri, {
+    serverSelectionTimeoutMS: 5000,
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+})
+.then(() => console.log('Connected to MongoDB Atlas successfully'))
+.catch((err) => console.error('Error connecting to MongoDB Atlas', err));
 
 
 // Middleware
