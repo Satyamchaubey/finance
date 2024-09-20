@@ -26,9 +26,10 @@ module.exports = function(passport) {
 
     // Google OAuth Strategy
     passport.use(new GoogleStrategy({
-        clientID: '1042265845512-4hv8t6ot16rcvjvekmgialmrecetmnc0.apps.googleusercontent.com',
-        clientSecret: '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',
-        callbackURL: "/auth/google/callback"
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: 'https://saaft.vercel.app/auth/google/callback'
+
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
