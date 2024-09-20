@@ -28,7 +28,7 @@ module.exports = function(passport) {
     passport.use(new GoogleStrategy({
         clientID: '1042265845512-4hv8t6ot16rcvjvekmgialmrecetmnc0.apps.googleusercontent.com',
         clientSecret: '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',
-        callbackURL: 'https://saaft.vercel.app//auth/google/callback'
+        callbackURL: 'https://saaft.vercel.app/login/auth/google/callback'
     },
     async (accessToken, refreshToken, profile, done) => {
         try {
