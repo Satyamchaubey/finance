@@ -279,12 +279,40 @@ app.post('/delete-transaction/:id', isAuthenticated, async (req, res) => {
 // Search Transactions Route
 app.post('/search-transactions', isAuthenticated, async (req, res) => {
     const { month, year } = req.body;
-    const user = await User.findById(req.session.userId);
-    const transactions = user.transactions.filter(t => {
-        const date = new Date(t.date);
-        return date.getMonth() + 1 === parseInt(month) && date.getFullYear() === parseInt(year);
-    });
-    res.render('dashboard', { user: { ...user._doc, transactions } });
+
+    try {
+        const user = await User.findById(req.session.userId);
+        
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+
+        const transactions = user.transactions.filter(t => {
+            const date = new Date(t.date);
+            return date.getMonth() + 1 === parseInt(month) && date.getFullYear() === parseInt(year);
+        });
+
+        // Calculate totals for rendering
+        const totalIncome = transactions
+            .filter(t => t.type === 'Income')
+            .reduce((acc, t) => acc + t.amount, 0);
+        
+        const totalExpenses = transactions
+            .filter(t => t.type === 'Expense')
+            .reduce((acc, t) => acc + t.amount, 0);
+        
+        const netBalance = totalIncome - totalExpenses;
+
+        res.render('dashboard', { 
+            user: { ...user._doc, transactions },
+            totalIncome,
+            totalExpenses,
+            netBalance
+        });
+    } catch (error) {
+        console.error('Error searching transactions:', error);
+        res.status(500).send('Internal Server Error');
+    }
 });
 
 // Download PDF Report Route
