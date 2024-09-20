@@ -331,7 +331,7 @@ app.get('/download-pdf', isAuthenticated, async (req, res) => {
     if (user.transactions.length > 0) {
         doc.fontSize(12).text('Transactions:', { underline: true });
         user.transactions.forEach(transaction => {
-            doc.text(`${transaction.description} - ${transaction.type} - ${new Date(transaction.date).toLocaleDateString()} - $${transaction.amount.toFixed(2)}`);
+            doc.text(`${transaction.description} - ${transaction.type} - ${new Date(transaction.date).toLocaleDateString()} - Rs. ${transaction.amount.toFixed(2)}`);
         });
     } else {
         doc.text('No transactions found.');
