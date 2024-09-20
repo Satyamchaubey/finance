@@ -25,7 +25,7 @@
                     <td><%= transaction.description %></td>
                     <td><%= transaction.type %></td>
                     <td><%= new Date(transaction.date).toLocaleDateString() %></td>
-                    <td>$<%= transaction.amount.toFixed(2) %></td>
+                    <td>Rs. <%= transaction.amount.toFixed(2) %></td>
                 </tr>
             <% }); %>
         </tbody>
