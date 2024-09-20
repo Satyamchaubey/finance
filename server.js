@@ -16,16 +16,23 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const app = express();
 
 
-// MongoDB Connection
 const uri = process.env.MONGODB_URI;
 
+if (!uri) {
+  console.error('MongoDB connection URI is missing. Please check your .env file.');
+  process.exit(1); // Exit the application if the URI is not found
+}
+
 mongoose.connect(uri, {
-    serverSelectionTimeoutMS: 5000,
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
+    serverSelectionTimeoutMS: 5000,  // Connection timeout settings
+    useNewUrlParser: true,           // Use the new MongoDB connection string parser
+    useUnifiedTopology: true,        // Ensure compatibility with MongoDB Atlas clusters
 })
 .then(() => console.log('Connected to MongoDB Atlas successfully'))
-.catch((err) => console.error('Error connecting to MongoDB Atlas', err));
+.catch((err) => {
+    console.error('Error connecting to MongoDB Atlas', err.message); // Log only the error message for clarity
+    process.exit(1); // Exit the app if the connection fails
+});
 
 
 // Middleware
